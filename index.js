@@ -1,4 +1,18 @@
-// process.env.GOPATH = "$HOME/go";
-process.env.GOPATH = "/home/korok/go";
+const homedir = require("os").homedir();
+process.env.GOPATH = `${homedir}/go`;
 
-require("./cmd/orcbrew2json/orcbrewToJSON");
+const convert = require("./cmd/orcbrew2json/orcbrewToJSON");
+module.exports = convert;
+
+// require("fs").readFile(
+//   "./samples/all-content.orcbrew",
+//   "utf-8",
+//   (err, data) => {
+//     if (err) {
+//       throw err;
+//     }
+//     convert(data).then(json => {
+//       require("fs").writeFileSync("daledale", json, "utf-8");
+//     });
+//   }
+// );
