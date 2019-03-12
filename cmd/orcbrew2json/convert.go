@@ -12,21 +12,43 @@ import (
 	"strings"
 
 	"github.com/cespare/goclj/parse"
+	"github.com/gopherjs/gopherjs/js"
 )
 
 var rawOutput = flag.Bool("raw", false, "Don't pretty-print JSON output")
 var noSave = flag.Bool("nosave", false, "Don't save the JSON output")
 
+// func main() {
+// 	flag.Parse()
+
+// 	args := flag.Args()
+// 	if len(args) != 1 {
+// 		printUsage()
+// 		os.Exit(2)
+// 	}
+
+// 	filename := args[0]
+// 	Convert(filename, false)
+// }
+
 func main() {
-	flag.Parse()
+	js.Module.Get("exports").Set("Convert", map[string]interface{}{
+		"Convert": Convert(),
+	})
+}
 
-	args := flag.Args()
-	if len(args) != 1 {
-		printUsage()
-		os.Exit(2)
-	}
+// Convert exposes the `convert()` function
+// as a JavaScript Function
+func Convert() *js.Object {
+	return js.MakeFunc(func(this *js.Object, arguments []*js.Object) interface{} {
+		filename := arguments[0].String()
+		return convert(filename, true)
+	})
+}
 
-	filename := args[0]
+// func MakeFunc(fn func(this *Object, arguments []*Object) interface{}) *Object
+
+func convert(filename string, shouldJustReturn bool) string {
 	contentsBytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed when reading file %s: %s", filename, err)
@@ -55,6 +77,14 @@ func main() {
 
 	jsonString := treeToJSON(tt)
 
+	if shouldJustReturn == false {
+		saveJSONFile(filename, jsonString)
+	}
+	fmt.Fprintf(os.Stdout, jsonString)
+	return jsonString
+}
+
+func saveJSONFile(filename string, jsonString string) {
 	if *noSave == false {
 		fName := strings.TrimSuffix(filename, filepath.Ext(filename))
 		fmt.Fprintf(os.Stdout, fmt.Sprintf("Saved to %s.json", fName))
@@ -64,7 +94,7 @@ func main() {
 			fmt.Fprintf(os.Stdout, jsonString)
 		} else {
 			var prettyJSON bytes.Buffer
-			err = json.Indent(&prettyJSON, []byte(jsonString), "", "  ")
+			err := json.Indent(&prettyJSON, []byte(jsonString), "", "  ")
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error parsing JSON: %s\n%s", err, jsonString)
 

@@ -1,0 +1,31 @@
+{
+  "name": "orcbrew-utils",
+  "version": "0.1.0",
+  "description": "converts .orcbrew files to .json files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/korokd/orcbrew-utils.git"
+  },
+  "keywords": [
+    "orcpub",
+    "dnd",
+    "rpg",
+    "orbrew",
+    "json",
+    "parser"
+  ],
+  "author": "Diogo Korok <korokd@protonmail.ch>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/korokd/orcbrew-utils/issues"
+  },
+  "homepage": "https://github.com/korokd/orcbrew-utils#readme",
+  "dependencies": {
+    "node-go-require": "^1.1.5"
+  }
+}
