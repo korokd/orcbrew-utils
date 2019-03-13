@@ -1,5 +1,5 @@
 {
-  "name": "orcbrew-utils",
+  "name": "orcbrew2json",
   "version": "0.1.0",
   "description": "converts .orcbrew files to .json files",
   "main": "index.js",
