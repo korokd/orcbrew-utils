@@ -12,7 +12,7 @@ module.exports = convert;
 //       throw err;
 //     }
 //     convert(data).then(json => {
-//       require("fs").writeFileSync("daledale", json, "utf-8");
+//       require("fs").writeFileSync("daledale.json", JSON.stringify(json), "utf-8");
 //     });
 //   }
 // );
